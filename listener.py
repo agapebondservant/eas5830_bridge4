@@ -82,7 +82,6 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
                   "amount": evt["args"]["amount"],
                   "transactionHash": evt["transactionHash"].to_0x_hex(),
                   "address": evt["address"] } for evt in events]
-        print(data)
     else:
         for block_num in range(start_block,end_block+1):
             event_filter = contract.events.Deposit.create_filter(from_block=block_num,to_block=block_num,argument_filters=arg_filter)
@@ -95,7 +94,6 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
                     "amount": evt["args"]["amount"],
                     "transactionHash": evt["transactionHash"].to_0x_hex(),
                     "address": evt["address"] } for evt in events]
-            print(data)
     
     df = pd.read_json(json.dumps(data))
-    df.to_csv("deposit_logs.csv", index=False)
+    df.to_csv(eventfile, index=False, mode='a')
