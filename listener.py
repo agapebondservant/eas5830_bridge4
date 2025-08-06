@@ -75,7 +75,8 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
         event_filter = contract.events.Deposit.create_filter(from_block=start_block,to_block=end_block,argument_filters=arg_filter)
         events = event_filter.get_all_entries()
         # print( f"Got {len(events)} entries for block {block_num}" )
-        print(events[0])
+        if len(events):
+            print(events[0])
         # TODO YOUR CODE HERE
         data += [{"chain": chain,
                   "token": evt["args"]["token"],
@@ -88,7 +89,8 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
             event_filter = contract.events.Deposit.create_filter(from_block=block_num,to_block=block_num,argument_filters=arg_filter)
             events = event_filter.get_all_entries()
             # print( f"Got {len(events)} entries for block {block_num}" )
-            print(events[0])
+            if len(events):
+                print(events[0])
             # TODO YOUR CODE HERE
             data += [{"chain": chain,
                     "token": evt["args"]["token"],
