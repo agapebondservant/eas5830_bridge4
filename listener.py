@@ -80,7 +80,7 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
                   "token": evt["args"]["token"],
                   "recipient": evt["args"]["dst"],
                   "amount": evt["args"]["wad"],
-                  "transactionHash": hex{evt["transactionHash"],
+                  "transactionHash": hex(evt["transactionHash"]),
                   "address": contract_address } for evt in events]
     else:
         for block_num in range(start_block,end_block+1):
