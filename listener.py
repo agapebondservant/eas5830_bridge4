@@ -50,14 +50,50 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
     else:
         print( f"Scanning blocks {start_block} - {end_block} on {chain}" )
 
+        # df = pd.DataFrame({'name': ['Raphael', 'Donatello'],
+        #            'mask': ['red', 'purple'],
+        #            'weapon': ['sai', 'bo staff']})
+
+            #         chain - String (either ‘avax’ or ‘bsc’)
+            # token - Address of deposit token (in hex)
+            # recipient - Address of recipient (in hex)
+            # amount - Number of tokens being transferred
+            # transactionHash - transaction hash (in hex)
+            # address - The address of the contract that emitted the event (in hex)
+
+        #     data = {
+        #     'to': evt.args['receiver'],
+        #     'from': evt.args['sender'],
+        #     'value': evt.args['value'],
+        #     'transactionHash': evt.transactionHash.hex(),
+        #     'address': evt.address,
+        # }
+    
+    data = []
+
     if end_block - start_block < 30:
         event_filter = contract.events.Deposit.create_filter(from_block=start_block,to_block=end_block,argument_filters=arg_filter)
         events = event_filter.get_all_entries()
         print( f"Got {len(events)} entries for block {block_num}" )
         # TODO YOUR CODE HERE
+        data += [{"chain": chain,
+                  "token": evt["args"]["token"],
+                  "recipient": evt["args"]["dst"],
+                  "amount": evt["args"]["wad"],
+                  "transactionHash": hex{evt["transactionHash"],
+                  "address": contract_address } for evt in events]
     else:
         for block_num in range(start_block,end_block+1):
             event_filter = contract.events.Deposit.create_filter(from_block=block_num,to_block=block_num,argument_filters=arg_filter)
             events = event_filter.get_all_entries()
             print( f"Got {len(events)} entries for block {block_num}" )
             # TODO YOUR CODE HERE
+            data += [{"chain": chain,
+                    "token": evt["args"]["token"],
+                    "recipient": evt["args"]["dst"],
+                    "amount": evt["args"]["wad"],
+                    "transactionHash": hex{evt["transactionHash"],
+                    "address": contract_address } for evt in events]
+    
+    df = pd.read_json(json.dumps(data))
+    df.to_csv("deposit_logs.csv", index=False)
