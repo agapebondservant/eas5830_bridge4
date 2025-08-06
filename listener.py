@@ -75,6 +75,6 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
                     "amount": evt["args"]["amount"],
                     "transactionHash": evt["transactionHash"].to_0x_hex(),
                     "address": evt["address"] } for evt in events]
-    
+    print(data)
     df = pd.read_json(json.dumps(data))
     df.to_csv(eventfile, index=False, mode='a')
