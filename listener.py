@@ -61,7 +61,7 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
                   "token": evt["args"]["token"],
                   "recipient": evt["args"]["recipient"],
                   "amount": evt["args"]["amount"],
-                  "transactionHash": hex(evt["transactionHash"]),
+                  "transactionHash": evt["transactionHash"].decode('utf-8'),
                   "address": evt["address"] } for evt in events]
     else:
         for block_num in range(start_block,end_block+1):
@@ -73,7 +73,7 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
                     "token": evt["args"]["token"],
                     "recipient": evt["args"]["recipient"],
                     "amount": evt["args"]["amount"],
-                    "transactionHash": hex(evt["transactionHash"]),
+                    "transactionHash": evt["transactionHash"].decode('utf-8'),
                     "address": evt["address"] } for evt in events]
     #print(data)
     df = pd.read_json(json.dumps(data))
