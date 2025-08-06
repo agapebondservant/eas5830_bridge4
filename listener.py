@@ -75,29 +75,27 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
         event_filter = contract.events.Deposit.create_filter(from_block=start_block,to_block=end_block,argument_filters=arg_filter)
         events = event_filter.get_all_entries()
         # print( f"Got {len(events)} entries for block {block_num}" )
-        if len(events):
-            print(events[0])
         # TODO YOUR CODE HERE
         data += [{"chain": chain,
                   "token": evt["args"]["token"],
-                  "recipient": evt["args"]["dst"],
-                  "amount": evt["args"]["wad"],
-                  "transactionHash": hex(evt["transactionHash"]),
-                  "address": contract_address } for evt in events]
+                  "recipient": evt["args"]["recipient"],
+                  "amount": evt["args"]["amount"],
+                  "transactionHash": evt["transactionHash"].to_0x_hex(),
+                  "address": evt["address"] } for evt in events]
+        print(data)
     else:
         for block_num in range(start_block,end_block+1):
             event_filter = contract.events.Deposit.create_filter(from_block=block_num,to_block=block_num,argument_filters=arg_filter)
             events = event_filter.get_all_entries()
             # print( f"Got {len(events)} entries for block {block_num}" )
-            if len(events):
-                print(events[0])
             # TODO YOUR CODE HERE
             data += [{"chain": chain,
                     "token": evt["args"]["token"],
-                    "recipient": evt["args"]["dst"],
-                    "amount": evt["args"]["wad"],
-                    "transactionHash": hex(evt["transactionHash"]),
-                    "address": contract_address } for evt in events]
+                    "recipient": evt["args"]["recipient"],
+                    "amount": evt["args"]["amount"],
+                    "transactionHash": evt["transactionHash"].to_0x_hex(),
+                    "address": evt["address"] } for evt in events]
+            print(data)
     
     df = pd.read_json(json.dumps(data))
     df.to_csv("deposit_logs.csv", index=False)
