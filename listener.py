@@ -49,25 +49,6 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
         print( f"Scanning block {start_block} on {chain}" )
     else:
         print( f"Scanning blocks {start_block} - {end_block} on {chain}" )
-
-        # df = pd.DataFrame({'name': ['Raphael', 'Donatello'],
-        #            'mask': ['red', 'purple'],
-        #            'weapon': ['sai', 'bo staff']})
-
-            #         chain - String (either ‘avax’ or ‘bsc’)
-            # token - Address of deposit token (in hex)
-            # recipient - Address of recipient (in hex)
-            # amount - Number of tokens being transferred
-            # transactionHash - transaction hash (in hex)
-            # address - The address of the contract that emitted the event (in hex)
-
-        #     data = {
-        #     'to': evt.args['receiver'],
-        #     'from': evt.args['sender'],
-        #     'value': evt.args['value'],
-        #     'transactionHash': evt.transactionHash.hex(),
-        #     'address': evt.address,
-        # }
     
     data = []
 
